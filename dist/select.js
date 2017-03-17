@@ -1,7 +1,7 @@
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select
- * Version: 0.19.6 - 2017-03-17T10:53:22.476Z
+ * Version: 0.19.6 - 2017-03-17T14:24:00.431Z
  * License: MIT
  */
 
@@ -1466,7 +1466,7 @@ uis.directive('uiSelect',
   };
 }]);
 
-uis.directive('uiSelectFooter', function(uiSelectConfig){
+uis.directive('uiSelectFooter', ['uiSelectConfig', function(uiSelectConfig){
   return {
     templateUrl: function (tElement) {
       // Needed so the uiSelect can detect the transcluded content
@@ -1480,9 +1480,9 @@ uis.directive('uiSelectFooter', function(uiSelectConfig){
     transclude: true,
     replace: true
   };
-});
+}]);
 
-uis.directive('uiSelectHeader', function(uiSelectConfig){
+uis.directive('uiSelectHeader', ['uiSelectConfig', function(uiSelectConfig){
   return {
     templateUrl: function (tElement) {
       // Needed so the uiSelect can detect the transcluded content
@@ -1496,7 +1496,7 @@ uis.directive('uiSelectHeader', function(uiSelectConfig){
     transclude: true,
     replace: true
   };
-});
+}]);
 
 uis.directive('uiSelectMatch', ['uiSelectConfig', function(uiSelectConfig) {
   return {
