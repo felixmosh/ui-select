@@ -1,7 +1,7 @@
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select
- * Version: 0.19.6 - 2017-03-17T14:24:00.431Z
+ * Version: 0.19.6 - 2017-03-29T09:43:06.619Z
  * License: MIT
  */
 
@@ -490,12 +490,14 @@ uis.controller('uiSelectCtrl',
     //When an object is used as source, we better create an array and use it as 'source'
     var createArrayFromObject = function(){
       var origSrc = originalSource($scope);
-      $scope.$uisSource = Object.keys(origSrc).map(function(v){
-        var result = {};
-        result[ctrl.parserResult.keyName] = v;
-        result.value = origSrc[v];
-        return result;
-      });
+      if(origSrc) {
+        $scope.$uisSource = Object.keys(origSrc).map(function(v){
+          var result = {};
+          result[ctrl.parserResult.keyName] = v;
+          result.value = origSrc[v];
+          return result;
+        });
+      }
     };
 
     if (ctrl.parserResult.keyName){ // Check for (key,value) syntax
@@ -2079,7 +2081,7 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
 
       scope.$on('uis:select', function (event, item) {
         $select.selected = item;
-        var locals = {};        
+        var locals = {};
         locals[$select.parserResult.itemName] = item;
 
         $timeout(function(){
@@ -2089,6 +2091,21 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
           });
         });
       });
+
+      $select.clear = function($event) {
+        $event.stopPropagation();
+
+        $select.select(undefined);
+        var locals = {};
+
+        $timeout(function() {
+          $select.focusser[0].focus();
+          $select.onRemoveCallback(scope, {
+            $item: "",
+            $model: $select.parserResult.modelMapper(scope, locals)
+          });
+        }, 0, false);
+      };
 
       scope.$on('uis:close', function (event, skipFocusser) {
         $timeout(function(){
