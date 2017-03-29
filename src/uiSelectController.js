@@ -218,12 +218,14 @@ uis.controller('uiSelectCtrl',
     //When an object is used as source, we better create an array and use it as 'source'
     var createArrayFromObject = function(){
       var origSrc = originalSource($scope);
-      $scope.$uisSource = Object.keys(origSrc).map(function(v){
-        var result = {};
-        result[ctrl.parserResult.keyName] = v;
-        result.value = origSrc[v];
-        return result;
-      });
+      if(origSrc) {
+        $scope.$uisSource = Object.keys(origSrc).map(function(v){
+          var result = {};
+          result[ctrl.parserResult.keyName] = v;
+          result.value = origSrc[v];
+          return result;
+        });
+      }
     };
 
     if (ctrl.parserResult.keyName){ // Check for (key,value) syntax

@@ -51,7 +51,7 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
 
       scope.$on('uis:select', function (event, item) {
         $select.selected = item;
-        var locals = {};        
+        var locals = {};
         locals[$select.parserResult.itemName] = item;
 
         $timeout(function(){
@@ -61,6 +61,21 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
           });
         });
       });
+
+      $select.clear = function($event) {
+        $event.stopPropagation();
+
+        $select.select(undefined);
+        var locals = {};
+
+        $timeout(function() {
+          $select.focusser[0].focus();
+          $select.onRemoveCallback(scope, {
+            $item: "",
+            $model: $select.parserResult.modelMapper(scope, locals)
+          });
+        }, 0, false);
+      };
 
       scope.$on('uis:close', function (event, skipFocusser) {
         $timeout(function(){
